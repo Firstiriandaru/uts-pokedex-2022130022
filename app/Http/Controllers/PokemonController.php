@@ -12,7 +12,9 @@ class PokemonController extends Controller
      */
     public function index()
     {
-        //
+        $pokemon = Pokemon::all();
+        $pokemon = Pokemon::paginate(9);
+        return view('pokemon.index', compact('pokemon'));
     }
 
     /**
@@ -20,7 +22,7 @@ class PokemonController extends Controller
      */
     public function create()
     {
-        //
+        return view('pokemon.create');
     }
 
     /**
@@ -28,7 +30,31 @@ class PokemonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:225',
+            'species' => 'required|string|max:100',
+            'primary_type' => 'required|string|max:50',
+            'weight' => 'numeric',
+            'height' => 'numeric',
+            'hp' => 'integer',
+            'attack' => 'integer',
+            'defense' => 'integer',
+            'is_legendary' => 'required|boolean',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $pokemon = Pokemon::create($request->all());
+
+        if($request->hasFile('photo')){
+            $file = $request->file('photo');
+            $fileName = $file->hashName();
+            $filePath = $file->storeAs('public', $fileName);
+            $pokemon->update([
+                'photo'=> $filePath
+            ]);
+        }
+
+        return redirect()->route('pokemon.index');
     }
 
     /**
@@ -36,7 +62,7 @@ class PokemonController extends Controller
      */
     public function show(Pokemon $pokemon)
     {
-        //
+        return view('pokemon.show', compact('pokemon'));
     }
 
     /**
@@ -44,7 +70,7 @@ class PokemonController extends Controller
      */
     public function edit(Pokemon $pokemon)
     {
-        //
+        return view('pokemon.edit', compact('pokemon'));
     }
 
     /**
@@ -52,7 +78,32 @@ class PokemonController extends Controller
      */
     public function update(Request $request, Pokemon $pokemon)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'species' => 'required|string|max:100',
+            'primary_type' => 'required|string|max:50',
+            'weight' => 'numeric',
+            'height' => 'numeric',
+            'hp' => 'integer',
+            'attack' => 'integer',
+            'defense' => 'integer',
+            'is_legendary' => 'required|boolean',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $pokemon = Pokemon::where('id', $pokemon->id);
+        $pokemon->update($request->except(['_token', '_method']) );
+
+        if($request->hasFile('photo')){
+            $file = $request->file('photo');
+            $fileName = $file->hashName();
+            $filePath = $file->storeAs('public', $fileName);
+            $pokemon->update([
+                'photo'=> $filePath
+            ]);
+        }
+
+        return redirect()->route('pokemon.index');
     }
 
     /**
@@ -60,6 +111,7 @@ class PokemonController extends Controller
      */
     public function destroy(Pokemon $pokemon)
     {
-        //
+        $pokemon->delete();
+        return redirect()->route('pokemon.index');
     }
 }
