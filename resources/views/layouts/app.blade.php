@@ -33,7 +33,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pokemon.index') }}">{{ __('Pokemon') }}</a>
+                            <a class="nav-link active" href="{{ route('pokedex') }}">Card View</a>
+                        </li>
+                        <li class="nav-item">
+                            {{-- <a class="nav-link active" href="{{ route('pokemon.index') }}">{{ __('Pokemon') }}</a> --}}
+                            <a class="nav-link active" href="{{ route('pokemon.index') }}">List View</a>
                         </li>
                     </ul>
 

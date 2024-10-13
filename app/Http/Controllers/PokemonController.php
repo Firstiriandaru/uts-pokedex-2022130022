@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 
 class PokemonController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except('show');
+    // }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $pokemon = Pokemon::all();
-        $pokemon = Pokemon::paginate(9);
+        // $pokemon = Pokemon::all();
+        $pokemon = Pokemon::paginate(20);
         return view('pokemon.index', compact('pokemon'));
     }
 
@@ -34,11 +38,11 @@ class PokemonController extends Controller
             'name' => 'required|string|max:225',
             'species' => 'required|string|max:100',
             'primary_type' => 'required|string|max:50',
-            'weight' => 'numeric',
-            'height' => 'numeric',
-            'hp' => 'integer',
-            'attack' => 'integer',
-            'defense' => 'integer',
+            'weight' => 'numeric|digits_between:0,8',
+            'height' => 'numeric|digits_between:0,8',
+            'hp' => 'integer|digits_between:0,4',
+            'attack' => 'integer|digits_between:0,4',
+            'defense' => 'integer|digits_between:0,4',
             'is_legendary' => 'required|boolean',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -79,14 +83,14 @@ class PokemonController extends Controller
     public function update(Request $request, Pokemon $pokemon)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:225',
             'species' => 'required|string|max:100',
             'primary_type' => 'required|string|max:50',
-            'weight' => 'numeric',
-            'height' => 'numeric',
-            'hp' => 'integer',
-            'attack' => 'integer',
-            'defense' => 'integer',
+            'weight' => 'numeric|digits_between:0,8',
+            'height' => 'numeric|digits_between:0,8',
+            'hp' => 'integer|digits_between:0,4',
+            'attack' => 'integer|digits_between:0,4',
+            'defense' => 'integer|digits_between:0,4',
             'is_legendary' => 'required|boolean',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
