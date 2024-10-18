@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', PokedexController::class)->name('pokedex');
+Route::get('/', [PokedexController::class, 'index'])->name('pokedex.index');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

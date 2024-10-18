@@ -7,9 +7,9 @@ use App\Models\Pokemon;
 
 class PokedexController extends Controller
 {
-    public function __invoke(Request $request)
+    public function index()
     {
-        $pokemon = Pokemon::paginate(9);
-        return view('pokedex', compact('pokemon'));
+        $pokemons = Pokemon::paginate(9);
+        return view('pokedex', compact('pokemons'));
     }
 }

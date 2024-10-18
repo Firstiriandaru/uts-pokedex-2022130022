@@ -21,12 +21,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'password' => bcrypt('password')
-        ]);
-
         $this->call([
             PokemonTableSeeder::class
         ]);
